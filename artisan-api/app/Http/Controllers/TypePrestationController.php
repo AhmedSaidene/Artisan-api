@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Models\type_prestation;
+
 class TypePrestationController extends Controller
 {
-    public function getByEntrepriseId($entreprise_id)
+    public function showByEntrepriseId($id)
     {
-        $prestations = Prestation::where('entreprise_id', $entreprise_id)->get();
+        $prestations = type_prestation::where('entreprise_id', $id)->get();
         return response()->json([
             'success' => true,
             'data' => $prestations
@@ -17,12 +19,12 @@ class TypePrestationController extends Controller
  
     public function show($id)
     {
-       $prestation = Prestation::find($id);
+       $prestation = type_prestation::find($id);
  
         if (!$prestation) {
             return response()->json([
                 'success' => false,
-                'message' => 'Prestation not found '
+                'message' => 'Prestation not found'
             ], 400);
         }
  
@@ -34,14 +36,13 @@ class TypePrestationController extends Controller
  
     public function store(Request $request)
     {
-        $prestation = new Prestation();
+        $prestation = new type_prestation();
+
+        $prestation->setTranslation('lib', 'fr', $request->lib);
 
         $prestation->img = $request->img;
-        $prestation->lib = $request->lib;
         $prestation->entreprise_id = $request->entreprise_id;
 
- 
-        /*if (auth()->user()->produits()->save($produit)) */
         if ($prestation->save())
             return response()->json([
                 'success' => true,
@@ -56,15 +57,17 @@ class TypePrestationController extends Controller
  
     public function update(Request $request, $id)
     {
-       $prestation = Prestation::find($id);
+       $prestation = type_prestation::find($id);
         if (!$prestation) {
             return response()->json([
                 'success' => false,
                 'message' => 'Prestation not found'
             ], 400);
         }
- 
-        $updated = $prestation->fill($request->all())->save(); 
+
+        $updated = $request->all();
+
+        $updated = $prestation->fill($updated)->save(); 
  
         if ($updated)
             return response()->json([
@@ -79,7 +82,7 @@ class TypePrestationController extends Controller
  
     public function destroy($id)
     {
-        $prestation = Prestation::find($id);
+        $prestation = type_prestation::find($id);
  
         if (!$prestation) {
             return response()->json([

@@ -3,67 +3,67 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Type_traveaux;
 
-class TypeTraveauxController extends Controller
+use App\Models\Groupe_ligne_doc;
+
+class GroupeLigneDocController extends Controller
 {
-    public function showByEntrepriseId($entreprise_id)
+
+    public function showByDocumentId($id)
     {
-        $Traveaux = Type_traveaux::where('entreprise_id', $entreprise_id)->get();
+        $groupe = Groupe_ligne_doc::where('document_id', $id)->pluck('id');
         return response()->json([
             'success' => true,
-            'data' => $Traveaux
-        ]); 
-     }
+            'data' => $groupe
+        ]);
+    }
  
     public function show($id)
     {
-       $type_traveaux = Type_traveaux::find($id);
+       $groupe = Groupe_ligne_doc::find($id);
  
-        if (!$type_traveaux) {
+        if (!$groupe) {
             return response()->json([
                 'success' => false,
-                'message' => 'Type de traveaux not found '
+                'message' => 'groupe not found '
             ], 400);
         }
  
         return response()->json([
             'success' => true,
-            'data' => $type_traveaux->toArray()
+            'data' => $groupe->toArray()
         ], 400);
     }
  
     public function store(Request $request)
     {
-        $type_traveaux = new Type_traveaux();
+        $groupe = new Groupe_ligne_doc();
 
-        $type_traveaux->setTranslation('lib', 'fr', $request->lib);
-        $type_traveaux->img = $request->img;
-        $type_traveaux->entreprise_id = $request->entreprise_id;
-
-        if ($type_traveaux->save())
+        $groupe->document_id = $request->documentId;
+       
+        if ($groupe->save())
             return response()->json([
                 'success' => true,
-                'data' => $type_traveaux->toArray()
+                'data' => $groupe->toArray()
             ]);
         else
             return response()->json([
                 'success' => false,
-                'message' => 'Type de traveaux not added'
+                'message' => 'groupe not added'
             ], 500);
     }
  
     public function update(Request $request, $id)
     {
-       $type_traveaux = Type_traveaux::find($id);
-        if (!$type_traveaux) {
+        $groupe = Groupe_ligne_doc::find($id);
+        if (!$groupe) {
             return response()->json([
                 'success' => false,
-                'message' => 'Type de traveaux not found'
+                'message' => 'groupe not found'
             ], 400);
         }
  
-        $updated = $type_traveaux->fill($request->all())->save(); 
+        $updated = $groupe->fill($request->all())->save(); 
  
         if ($updated)
             return response()->json([
@@ -72,31 +72,30 @@ class TypeTraveauxController extends Controller
         else
             return response()->json([
                 'success' => false,
-                'message' => 'Type de traveaux can not be updated'
+                'message' => 'groupe can not be updated'
             ], 500);
     }
- 
+
     public function destroy($id)
     {
-        $type_traveaux = Type_traveaux::find($id);
+        $groupe = Groupe_ligne_doc::find($id);
  
-        if (!$type_traveaux) {
+        if (!$groupe) {
             return response()->json([
                 'success' => false,
-                'message' => 'Type de traveaux not found'
+                'message' => 'groupe not found'
             ], 400);
         }
  
-        if ($type_traveaux->delete()) {
+        if ($groupe->delete()) {
             return response()->json([
                 'success' => true
             ]);
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Type de traveaux can not be deleted'
+                'message' => 'groupe can not be deleted'
             ], 500);
         }
     }
 }
-

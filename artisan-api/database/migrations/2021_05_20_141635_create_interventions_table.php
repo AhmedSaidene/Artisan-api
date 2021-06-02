@@ -15,7 +15,7 @@ class CreateInterventionsTable extends Migration
     {
         Schema::create('interventions', function (Blueprint $table) {
             $table->id();
-            $table->string('lib',45);
+            $table->json('lib',45);
             $table->string('img',200);
             $table->foreignId('entreprise_id')->constrained('entreprises');
         

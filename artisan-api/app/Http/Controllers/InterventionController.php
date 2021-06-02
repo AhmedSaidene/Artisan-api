@@ -3,17 +3,36 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Intervention;
 
 class InterventionController extends Controller
 {
-    public function getByEntrepriseId($entreprise_id)
+    public function showByEntrepriseId($id)
     {
-        $interventions = Intervention::where('entreprise_id', $entreprise_id)->get();
+        $interventions = Intervention::where('entreprise_id', $id)->get();
         return response()->json([
             'success' => true,
             'data' => $interventions
         ]); 
      }
+     public function showfavourite($id)
+     {
+         $interventions = Intervention::where('entreprise_id', $id)
+                                        ->where('type','favourite')->get();
+         return response()->json([
+             'success' => true,
+             'data' => $interventions
+         ]); 
+      }
+      public function add($id)
+      {
+          $interventions = Intervention::where('entreprise_id', $id)
+                                        ->where('type',null)->get();
+          return response()->json([
+              'success' => true,
+              'data' => $interventions
+          ]); 
+       }
  
     public function show($id)
     {
@@ -36,12 +55,10 @@ class InterventionController extends Controller
     {
         $intervention = new Intervention();
 
+        $intervention->setTranslation('lib', 'fr', $request->lib);
         $intervention->img = $request->img;
-        $intervention->lib = $request->lib;
         $intervention->entreprise_id = $request->entreprise_id;
 
- 
-        /*if (auth()->user()->produits()->save($produit)) */
         if ($intervention->save())
             return response()->json([
                 'success' => true,

@@ -20,7 +20,8 @@ class Produit extends Model
         'tva',
         'type_prestation_id',
         'type_traveux_id',
-        'entreprise_id'
+        'entreprise_id',
+        'categorie_id'
     ];
 
 }

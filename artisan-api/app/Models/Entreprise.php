@@ -9,6 +9,11 @@ class Entreprise extends Model
 {
     use HasFactory;
 
+    public function modelDevis()
+    {
+        return $this->hasOne(ModelDevis::class);
+    }
+
     protected $fillable = [
         'lib',
         'email',

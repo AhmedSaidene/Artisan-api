@@ -25,7 +25,7 @@ class CreateClientsTable extends Migration
             $table->string('tel',45);
 
             $table->foreignId('typeClient_id')->constrained('type_clients');
-            $table->foreignId('entrprise_id')->constrained('entreprise');
+            $table->foreignId('entreprise_id')->constrained('entreprise');
 
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();

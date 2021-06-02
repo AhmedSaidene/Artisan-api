@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Groupe_ligne_doc extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'document_id'
+        ];
 }
+

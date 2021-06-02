@@ -9,6 +9,11 @@ class Document extends Model
 {
     use HasFactory;
 
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
+    }
+    
     protected $fillable = [
         'type',
         'IBAN',

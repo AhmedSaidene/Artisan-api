@@ -17,6 +17,11 @@ class Client extends Model
         'ville',
         'tel',
         'typeClient_id',
-        'entrprise_id'
+        'entreprise_id'
     ];
+
+    public function documents()
+    {
+        return $this->hasMany(Document::class);
+    }
 }

@@ -10,7 +10,6 @@ class ClientController extends Controller
 {
     public function index()
     {
-        /* $produits = auth()->user()->produis; */
         $clients = Client::all();
 
         return response()->json([
@@ -19,9 +18,9 @@ class ClientController extends Controller
         ]);
     }
 
-    public function getByEntrepriseId($id)
+    public function showByEntrepriseId($id)
     {
-        $clients = Client::where('entrprise_id', $id)->get();
+        $clients = Client::where('entreprise_id', $id)->get();
         return response()->json([
             'success' => true,
             'data' => $clients
@@ -42,7 +41,44 @@ class ClientController extends Controller
         return response()->json([
             'success' => true,
             'data' => $client->toArray()
-        ], 400);
+        ], 200);
+    }
+
+    public function showByName($nom, $id)
+    {
+        $clients = Client::where('nom', $nom)
+                              ->where('entreprise_id', $id)
+                              ->get();
+        if (!$clients) {
+            return response()->json([
+                'success' => false
+            ]);
+        } else {
+            $documents = $clients->map(function ($client) {
+               return $client->documents;
+            });
+         return response()->json([
+             'success' => true,
+            // 'documents' => $documents,//->collapse(),
+             'clients' => $clients
+         ]);
+        }
+    }
+
+    public function checkClientByEmail($email)
+    {
+        $client = Client::where('email', $email)->get();
+
+        if (count($client) == 0) {
+            return response()->json([
+                'exist' => false
+            ]);
+        }
+        else {
+            return response()->json([
+                'exist' => true
+            ]);
+        }
     }
  
     public function store(Request $request)
@@ -51,14 +87,14 @@ class ClientController extends Controller
 
         $client->nom = $request->nom;
         $client->email = $request->email;
-        $client->adresse = $request->adresse;
+        $client->adresse = $request->adr;
         $client->cp = $request->cp;
         $client->ville = $request->ville;
         $client->tel = $request->tel;
-        $client->typeClient_id = $request->typeClient_id;
-        $client->entrprise_id = $request->entrprise_id;
+        //$client->typeClient_id = $request->typeClient;
+        $client->typeClient = $request->typeClient;
+        $client->entreprise_id = $request->entrepriseId;
  
-        /*if (auth()->user()->produits()->save($produit)) */
         if ($client->save())
             return response()->json([
                 'success' => true,
@@ -73,7 +109,6 @@ class ClientController extends Controller
  
     public function update(Request $request, $id)
     {
-        /*$produit = auth()->user()->produits()->find($id); */
         $client = Client::find($id);
         if (!$client) {
             return response()->json([
@@ -97,7 +132,6 @@ class ClientController extends Controller
  
     public function destroy($id)
     {
-        /*$produit = auth()->user()->produits()->find($id); */
         $client = Client::find($id);
  
         if (!$client) {

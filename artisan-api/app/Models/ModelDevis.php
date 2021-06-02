@@ -9,6 +9,11 @@ class ModelDevis extends Model
 {
     use HasFactory;
 
+    public function documents()
+    {
+        return $this->hasMany(Document::class);
+    }
+    
     protected $fillable = [
         'cgv',
         'piedPage',

@@ -15,11 +15,12 @@ class CreateModelDevisTable extends Migration
     {
         Schema::create('model_devis', function (Blueprint $table) {
             $table->id();
-            $table->string('cgv', 45);
-            $table->string('piedPage', 45);
-            $table->string('header', 45);
             $table->string('IBAN', 45);
-            $table->string('lib', 45);
+
+            $table->string('cgv', 45)->nullable();
+            $table->string('piedPage', 45)->nullable();
+            $table->string('header', 45)->nullable();
+            $table->string('lib', 45)->nullable();
            
             $table->foreignId('entreprise_id')->constrained('entreprise');
 

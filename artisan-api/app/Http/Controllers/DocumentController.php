@@ -21,7 +21,6 @@ class DocumentController extends Controller
  
     public function show($id)
     {
-       /* $produit = auth()->user()->produits()->find($id); */
        $document = Document::find($id);
  
         if (!$document) {
@@ -34,14 +33,34 @@ class DocumentController extends Controller
         return response()->json([
             'success' => true,
             'data' => $document->toArray()
-        ], 400);
+        ], 200);
+    }
+
+    public function showByType($type, $id)
+    {//$Categories = Categorie::where('entreprise_id', $id)->get();
+       $documents = Document::where('entreprise_id', $id)
+                            ->where('type', $type) 
+                            ->get();
+ 
+        if (!$documents) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Document not found '
+            ], 400);
+        }
+
+        $clients = $documents->map(function ($documents) {
+            return $documents->clients;
+         });
+        return response()->json([
+            'success' => true,
+            'document' => $document,
+            'clients' => $clients->toArray(),
+        ], 200);
     }
  
     public function store(Request $request)
-    {/*
-        $this->validate($request, [
-           
-        ]);*/
+    {
  
         $document = new Document();
 
@@ -59,7 +78,8 @@ class DocumentController extends Controller
         $document->intervention_id = $request->intervention_id;
         $document->type_traveaux_id = $request->type_traveaux_id;
         $document->type_prestation_id = $request->type_prestation_id;
-        $document->model_devis_id = $request->model_devis_id;
+        $document->model_devis_id = $request->modelDevis_id;
+        //$client->entreprise_id = $request->entreprise_id;
  
         /*if (auth()->user()->produits()->save($produit)) */
         if ($document->save())

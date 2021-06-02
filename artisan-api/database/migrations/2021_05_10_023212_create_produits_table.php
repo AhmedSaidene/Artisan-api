@@ -25,14 +25,13 @@ class CreateProduitsTable extends Migration
             $table->text('desc');
             $table->double('tva', 3, 2);
 
-            $table->foreignId('type_prestation_id')->constrained('type_prestation');
+            $table->foreignId('type_prestation_id')->constrained('type_prestations');
             $table->foreignId('type_traveux_id')->constrained('type_traveux');
-            $table->foreignId('entreprise_id')->constrained('entreprise');
+            $table->foreignId('entreprise_id')->constrained('entreprises');
+            $table->foreignId('categorie_id')->constrained('categories');
             
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
-
-
 
         });
     }

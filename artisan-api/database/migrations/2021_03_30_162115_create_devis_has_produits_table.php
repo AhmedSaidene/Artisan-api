@@ -20,6 +20,8 @@ class CreateDevisHasProduitsTable extends Migration
             $table->float('prix_par_total_HT',10,3);
             $table->integer('quantite');
             $table->float('tva',3,2);
+            $table->string('reference');
+            $table->string('desc');
 
             $table->foreignId('produits_id')->constrained('produit');
             $table->timestamp('created_at')->nullable();

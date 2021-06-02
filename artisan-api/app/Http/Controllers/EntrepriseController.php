@@ -10,7 +10,6 @@ class EntrepriseController extends Controller
 {
     public function index()
     {
-        /* $produits = auth()->user()->produis; */
         $entreprises = Entreprise::all();
 
         return response()->json([
@@ -21,7 +20,6 @@ class EntrepriseController extends Controller
  
     public function show($id)
     {
-       /* $produit = auth()->user()->produits()->find($id); */
        $entreprise = Entreprise::find($id);
  
         if (!$entreprise) {
@@ -34,7 +32,68 @@ class EntrepriseController extends Controller
         return response()->json([
             'success' => true,
             'data' => $entreprise->toArray()
-        ], 400);
+        ], 200);
+    }
+
+    public function checkEntrepriseByEmail($email)
+    {
+        $entreprise = Entreprise::where('email', $email)->get();
+
+        if (count($entreprise) == 0) {
+            return response()->json([
+                'exist' => false
+            ]);
+        }
+        else {
+            return response()->json([
+                'exist' => true
+            ]);
+        }
+    }
+
+    public function showDevis($id)
+    {
+       $documents = Entreprise::find($id)
+                                 ->modelDevis
+                                 ->documents
+                                 ->where('type', 'devis')->values();
+        if (!$documents) {
+            return response()->json([
+                'success' => false,
+                'message' => 'documents not found'
+            ], 400);
+        }
+        else {
+            $clients = $documents->map(function ($doc) {
+                return $doc->client;
+             });
+            return response()->json([
+                'success' => true,
+                'data' => $documents//->values()
+            ], 200);
+        }
+    }
+    public function showFactures($id)
+    {
+       $documents = Entreprise::find($id)
+                                 ->modelDevis
+                                 ->documents
+                                 ->where('type', 'facture')->values();
+        if (!$documents) {
+            return response()->json([
+                'success' => false,
+                'message' => 'documents not found'
+            ], 400);
+        }
+        else {
+            $clients = $documents->map(function ($doc) {
+                return $doc->client;
+             }); 
+            return response()->json([
+                'success' => true,
+                'data' => $documents
+            ], 200);
+        }
     }
 
     public function store(Request $request)
@@ -50,9 +109,7 @@ class EntrepriseController extends Controller
         $entreprise->adresse = $request->adresse;
         $entreprise->tel = $request->tel;
         $entreprise->logo = $request->logo;
-        $entreprise->entreprise_id = $request->entreprise_id;
  
-        /*if (auth()->user()->produits()->save($produit)) */
         if ($entreprise->save())
             return response()->json([
                 'success' => true,

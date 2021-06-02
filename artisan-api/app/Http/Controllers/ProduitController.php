@@ -10,7 +10,6 @@ class ProduitController extends Controller
 {
     public function index()
     {
-        /* $produits = auth()->user()->produis; */
         $produits = Produit::all();
 
         return response()->json([
@@ -18,19 +17,9 @@ class ProduitController extends Controller
             'data' => $produits
         ]);
     }
-/*
-    public function getByEntrepriseId($id)
+    public function showByCategorieId($id)
     {
-        $produits = Produit::where('entreprise_id', $id)->get();
-        return response()->json([
-            'success' => true,
-            'data' => $produits
-        ]); 
-     }
-     */
-    public function getByCathegorieId($cathegorie_id)
-    {
-        $produits = Produit::where('cathegorie_id', $cathegorie_id)->get();
+        $produits = Produit::where('categorie_id', $id)->get();
         return response()->json([
             'success' => true,
             'data' => $produits
@@ -69,6 +58,7 @@ class ProduitController extends Controller
         $produit->type_prestation_id = $request->type_prestation_id;
         $produit->type_traveux_id = $request->type_traveux_id;
         $produit->entreprise_id = $request->entreprise_id;
+        $produit->categorie_id = $request->categorie_id;
 
  
         /*if (auth()->user()->produits()->save($produit)) */

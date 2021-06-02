@@ -13,15 +13,14 @@ class CreateTypeTraveauxesTable extends Migration
      */
     public function up()
     {
-        Schema::create('type_traveaux', function (Blueprint $table) {
+        Schema::create('type_traveauxes', function (Blueprint $table) {
             $table->id();
             $table->string('img',200);
             $table->json('lib');
             $table->foreignId('entreprise_id')->constrained('entreprise');
        
             $table->timestamp('created_at')->nullable();
-            $table->timestamp('updated_at')->nullable();  
-        });
+            $table->timestamp('updated_at')->nullable();});
     }
 
     /**
@@ -31,6 +30,6 @@ class CreateTypeTraveauxesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('type_traveaux');
+        Schema::dropIfExists('type_traveauxes');
     }
 }

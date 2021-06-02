@@ -10,7 +10,6 @@ class ModelDevisController extends Controller
 {
     public function index()
     {
-        /* $produits = auth()->user()->produis; */
         $models = ModelDevis::all();
 
         return response()->json([
@@ -18,10 +17,17 @@ class ModelDevisController extends Controller
             'data' => $models
         ]);
     }
+    public function showByEntrepriseId($id)
+    {
+        $modelDevis = ModelDevis::where('entreprise_id', $id)->get();
+        return response()->json([
+            'success' => true,
+            'data' => $modelDevis
+        ]);
+    }
  
     public function show($id)
     {
-       /* $produit = auth()->user()->produits()->find($id); */
        $model = ModelDevis::find($id);
  
         if (!$model) {
@@ -38,21 +44,18 @@ class ModelDevisController extends Controller
     }
  
     public function store(Request $request)
-    {/*
-        $this->validate($request, [
-           
-        ]);*/
- 
+    {
         $model = new ModelDevis();
+
+        $model->IBAN = $request->iban;
+        $model->entreprise_id = $request->entrepriseId;
 
         $model->cgv = $request->cgv;
         $model->piedPage = $request->piedPage;
         $model->header = $request->header;
-        $model->IBAN = $request->IBAN;
         $model->lib = $request->lib;
-        $model->entreprise_id = $request->entreprise_id;
+       
  
-        /*if (auth()->user()->produits()->save($produit)) */
         if ($model->save())
             return response()->json([
                 'success' => true,
