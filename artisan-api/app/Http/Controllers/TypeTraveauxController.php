@@ -15,6 +15,24 @@ class TypeTraveauxController extends Controller
             'data' => $Traveaux
         ]); 
      }
+     public function showfavourite($id)
+     {
+         $Traveaux = Type_traveaux::where('entreprise_id', $id)
+                                    ->where('type','favourite')->get();
+         return response()->json([
+             'success' => true,
+             'data' => $Traveaux
+         ]); 
+      }
+      public function add($id)
+      {
+          $Traveaux = Type_traveaux::where('entreprise_id', $id)
+                                        ->where('type',null)->get();
+          return response()->json([
+              'success' => true,
+              'data' => $Traveaux
+          ]); 
+       }
  
     public function show($id)
     {

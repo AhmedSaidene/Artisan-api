@@ -73,7 +73,8 @@ Route::middleware('auth:api')->group(function () {
    
     Route::resource('traveaux', TypeTraveauxController::class);
     Route::get('traveaux/entreprise/{id}', [TypeTraveauxController::class,'showByEntrepriseId']);
-
+    Route::get('traveaux/entreprise/favourite/{id}', [TypeTraveauxController::class,'showfavourite']);
+    Route::get('traveaux/entreprise/add/{id}', [TypeTraveauxController::class,'add']);
     
 //Route::resource('entreprises', EntrepriseController::class);
    //............................. Route::get('entreprise/entreprise/{id}', [EntrepriseController::class, 'showByEntrepriseId']);
