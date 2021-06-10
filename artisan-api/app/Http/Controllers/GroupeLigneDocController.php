@@ -40,16 +40,18 @@ class GroupeLigneDocController extends Controller
         $groupe = new Groupe_ligne_doc();
 
         $groupe->document_id = $request->documentId;
+        $groupe->Intervention_id = $request->id;
+        $groupe->Type_traveaux_id = $request->traveaux;
+        $groupe->type_prestation_id = $request->prestation;
        
         if ($groupe->save())
             return response()->json([
                 'success' => true,
-                'data' => $groupe->toArray()
+                'id' => $groupe->id
             ]);
         else
             return response()->json([
                 'success' => false,
-                'message' => 'groupe not added'
             ], 500);
     }
  

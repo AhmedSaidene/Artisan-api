@@ -9,8 +9,16 @@ class Groupe_ligne_doc extends Model
 {
     use HasFactory;
 
+    public function lignes()
+    {
+        return $this->hasMany(Devis_has_produit::class);
+    }
+
     protected $fillable = [
-        'document_id'
+        'document_id',
+        'Intervention_id',
+        'Type_traveaux_id',
+        'type_prestation_id',
         ];
 }
 

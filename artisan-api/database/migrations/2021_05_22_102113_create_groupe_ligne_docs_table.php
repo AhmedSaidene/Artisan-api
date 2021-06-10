@@ -31,4 +31,5 @@ class CreateGroupeLigneDocsTable extends Migration
     {
         Schema::dropIfExists('groupe_ligne_docs');
     }
+    
 }

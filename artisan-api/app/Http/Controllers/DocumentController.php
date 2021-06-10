@@ -32,7 +32,11 @@ class DocumentController extends Controller
  
         return response()->json([
             'success' => true,
-            'data' => $document->toArray()
+            'data' => 
+            [
+            'doc' => $document,
+            'lignes' => $document->groupeLignes
+            ]
         ], 200);
     }
 
@@ -75,9 +79,6 @@ class DocumentController extends Controller
         $document->cgv = $request->cgv;
         $document->piedPage = $request->piedPage;
         $document->client_id = $request->client_id;
-        $document->intervention_id = $request->intervention_id;
-        $document->type_traveaux_id = $request->type_traveaux_id;
-        $document->type_prestation_id = $request->type_prestation_id;
         $document->model_devis_id = $request->modelDevis_id;
         //$client->entreprise_id = $request->entreprise_id;
  
@@ -85,7 +86,7 @@ class DocumentController extends Controller
         if ($document->save())
             return response()->json([
                 'success' => true,
-                'data' => $document->toArray()
+                'id' => $document->id
             ]);
         else
             return response()->json([

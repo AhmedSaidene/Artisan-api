@@ -55,8 +55,6 @@ class ProduitController extends Controller
         $produit->prix_vente = $request->prix_vente;
         $produit->desc = $request->desc;
         $produit->tva = $request->tva;
-        $produit->type_prestation_id = $request->type_prestation_id;
-        $produit->type_traveux_id = $request->type_traveux_id;
         $produit->entreprise_id = $request->entreprise_id;
         $produit->categorie_id = $request->categorie_id;
 
@@ -82,7 +80,7 @@ class ProduitController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Produit not found'
-            ], 400);
+            ]);
         }
  
         $updated = $produit->fill($request->all())->save(); 
@@ -95,7 +93,7 @@ class ProduitController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Produit can not be updated'
-            ], 500);
+            ]);
     }
  
     public function destroy($id)

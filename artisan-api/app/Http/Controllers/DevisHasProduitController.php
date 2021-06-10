@@ -33,14 +33,16 @@ class DevisHasProduitController extends Controller
         ]);*/
  
         $ligne = new Devis_has_produit();
-        $ligne->produits_id = $request->produits_id;
+        $ligne->produit_id = $request->produit_id;
         $ligne->prix_par_achat = $request->prix_par_achat;
         $ligne->prix_par_vente_unitaire = $request->prix_par_vente_unitaire;
         $ligne->prix_par_total_HT = $request->prix_par_total_HT;
         $ligne->quantite = $request->quantite;
         $ligne->tva = $request->tva;
         $ligne->reference = $request->reference;
-        $ligne->description = $request->description;
+        $ligne->desc = $request->description;
+        $ligne->groupe_ligne_doc_id = $request->groupe_ligne_doc_id;
+        
  
         if ($ligne->save())
             return response()->json([

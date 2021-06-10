@@ -23,12 +23,12 @@ class CreateDevisHasProduitsTable extends Migration
             $table->string('reference');
             $table->string('desc');
 
-            $table->foreignId('produits_id')->constrained('produit');
+             $table->foreignId('groupe_ligne_doc_id')->constrained('groupe_ligne_docs');
+            $table->foreignId('produit_id')->constrained('produit');
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
         });
     }
-
     /**
      * Reverse the migrations.
      *

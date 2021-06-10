@@ -34,7 +34,30 @@ class EntrepriseController extends Controller
             'data' => $entreprise->toArray()
         ], 200);
     }
-
+    public function showForDocument($id)
+    {
+       $entreprise = Entreprise::find($id);
+ 
+        if (!$entreprise) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Entreprise not found '
+            ], 400);
+        }
+ 
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'id' => $entreprise->id,
+                'lib' => $entreprise->lib,
+                'email' => $entreprise->email,
+                'adresse' => $entreprise->adresse,
+                'tel' => $entreprise->tel,
+                'IBAN' => $entreprise->modelDevis->IBAN,
+                'nodelDevisId' => $entreprise->modelDevis->id
+            ]
+        ], 200);
+    }
     public function checkEntrepriseByEmail($email)
     {
         $entreprise = Entreprise::where('email', $email)->get();
@@ -113,7 +136,7 @@ class EntrepriseController extends Controller
         if ($entreprise->save())
             return response()->json([
                 'success' => true,
-                'data' => $entreprise->toArray()
+                'id' => $entreprise->id
             ]);
         else
             return response()->json([

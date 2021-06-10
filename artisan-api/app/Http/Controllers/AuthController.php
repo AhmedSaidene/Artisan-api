@@ -29,10 +29,9 @@ class AuthController extends Controller
             
     return response()->json([
            'success' => true,
-            'data' => $user->toArray('nom','prenom', 'role', 'entreprise_id'),
-            'token' => $token,
-            'logo' => $user->entreprise->logo,
-            'entreprise' => $user->entreprise->lib,
+           'token' => $token,
+           'id' => $user->id,
+           'entreprise_id' => $user->entreprise->id,
     ]);
 
     }
@@ -46,9 +45,8 @@ class AuthController extends Controller
 
               return response()->json([
                 'success' => true,
-                'data' => $user->toArray(),
-                'logo' => $user->entreprise->logo,
-                'entreprise' => $user->entreprise->lib,
+                'id' => $user->id,
+                'entreprise_id' => $user->entreprise->id,
                 'token' => $token
               ],200);
             }

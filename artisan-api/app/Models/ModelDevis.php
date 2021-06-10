@@ -13,7 +13,7 @@ class ModelDevis extends Model
     {
         return $this->hasMany(Document::class);
     }
-    
+  
     protected $fillable = [
         'cgv',
         'piedPage',

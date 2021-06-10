@@ -43,6 +43,27 @@ class ClientController extends Controller
             'data' => $client->toArray()
         ], 200);
     }
+    public function showForDocument($id)
+    {
+       $client = Client::find($id);
+ 
+        if (!$client) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Client not found'
+            ], 400);
+        }
+ 
+        return response()->json([
+            'success' => true,
+            'data' =>  [
+                'nom' => $client->nom,
+                'adresse' => $client->adresse,
+                'cp' => $client->cp,
+                'tel' => $client->tel,
+            ]
+        ], 200);
+    }
 
     public function showByName($nom, $id)
     {
@@ -91,8 +112,7 @@ class ClientController extends Controller
         $client->cp = $request->cp;
         $client->ville = $request->ville;
         $client->tel = $request->tel;
-        //$client->typeClient_id = $request->typeClient;
-        $client->typeClient = $request->typeClient;
+        $client->type = $request->type;
         $client->entreprise_id = $request->entrepriseId;
  
         if ($client->save())

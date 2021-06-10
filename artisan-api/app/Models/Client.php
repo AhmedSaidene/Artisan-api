@@ -16,7 +16,7 @@ class Client extends Model
         'cp',
         'ville',
         'tel',
-        'typeClient_id',
+        'type',
         'entreprise_id'
     ];
 

@@ -29,22 +29,29 @@ use App\Http\Controllers\UserController;
 |
 */
 
+
+Route::get('clients/doc/{id}', [ClientController::class,'showForDocument']);
+
 Route::post('register', [AuthController::class, 'register']);
-Route::get('admin/email/{email}', [AuthController::class,'checkAdminByEmail']);
-//l'hors de sa création, l'entreprise doit avoir un email unique 
-Route::get('entreprise/email/{email}', [AuthController::class,'EntrepriseController']);
-   
+Route::get('/user/email/{email}', [UserController::class,'checkUserByEmail']);
+  
 Route::post('login', [AuthController::class,'login']);
 
-Route::post('entreprise', [EntrepriseController::class,'store']);
+Route::post('entreprises', [EntrepriseController::class,'store']);
+Route::get('entreprises/email/{email}', [EntrepriseController::class, 'checkEntrepriseByEmail']);
+
 
 Route::post('model-devis', [ModelDevisController::class,'store']);
+
+
 
 
 Route::middleware('auth:api')->group(function () {
     
     Route::resource('user', UserController::class);
     Route::get('user/entreprise/{id}', [UserController::class,'showByEntrepriseId']);
+    Route::get('user/profile/{id}', [UserController::class,'showProfile']);
+   
 
     Route::resource('clients', ClientController::class);
     Route::get('clients/entreprise/{id}', [ClientController::class,'showByEntrepriseId']);
@@ -53,6 +60,7 @@ Route::middleware('auth:api')->group(function () {
    //get le client qui a un nom {nom} et qui appartient à l'entreprise d'id {id} 
    //et ces documents qui a un nom {nom} et qui appartient à l'entreprise d'id {id} 
     Route::get('clients/nom/{nom}/{id}', [ClientController::class,'showByName']);
+    Route::get('clients/doc/{id}', [ClientController::class,'showForDocument']);
   
    Route::resource('categories', CategorieController::class);
    Route::get('categories/entreprise/{id}', [CategorieController::class,'showByEntrepriseId']);
@@ -78,9 +86,11 @@ Route::middleware('auth:api')->group(function () {
     
 //Route::resource('entreprises', EntrepriseController::class);
    //............................. Route::get('entreprise/entreprise/{id}', [EntrepriseController::class, 'showByEntrepriseId']);
-    Route::get('entreprise/{id}', [EntrepriseController::class, 'show']);
-    Route::put('entreprise/{id}', [EntrepriseController::class, 'update']);
-    Route::delete('entreprise/{id}', [EntrepriseController::class, 'destroy']);
+    Route::get('entreprises/{id}', [EntrepriseController::class, 'show']);
+    Route::put('entreprises/{id}', [EntrepriseController::class, 'update']);
+    Route::delete('entreprises/{id}', [EntrepriseController::class, 'destroy']);
+    Route::get('entreprises/model/{id}', [EntrepriseController::class, 'showForDocument']);
+
 //get les documents devis de l'entreprise {id}
     Route::get('devis/{id}', [EntrepriseController::class, 'showDevis']);
 //get les documents factures de l'entreprise {id}

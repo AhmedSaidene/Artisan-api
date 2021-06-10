@@ -58,13 +58,11 @@ class ModelDevisController extends Controller
  
         if ($model->save())
             return response()->json([
-                'success' => true,
-                'data' => $model->toArray()
+                'success' => true
             ]);
         else
             return response()->json([
-                'success' => false,
-                'message' => 'model not added'
+                'success' => false
             ], 500);
     }
  

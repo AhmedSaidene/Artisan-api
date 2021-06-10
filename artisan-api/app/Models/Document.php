@@ -14,6 +14,11 @@ class Document extends Model
         return $this->belongsTo(Client::class);
     }
     
+    public function groupeLignes()
+    {
+        return $this->HasMany(Groupe_ligne_doc::class);
+    }
+    
     protected $fillable = [
         'type',
         'IBAN',

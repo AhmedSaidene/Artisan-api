@@ -33,16 +33,29 @@ class UserController extends Controller
         ]);
     }
     
+    public function showProfile($id)
+    {
+       $user = User::find($id);
+ 
+       return response()->json([
+        'success' => true,
+        'nom' => $user->nom,
+        'prenom' => $user->prenom,
+        'role' => $user->role,
+        'logo' => $user->entreprise->logo,
+        'entreprise' => $user->entreprise->lib
+    ], 200);
+    }
     public function show($id)
     {
        $user = User::find($id);
  
         return response()->json([
             'success' => true,
-            'user' => $user
+            'data' => $user
         ], 200);
     }
-        
+ 
     public function store(Request $request)
     {
         $existe = User::where('email', $request->email)->get();
